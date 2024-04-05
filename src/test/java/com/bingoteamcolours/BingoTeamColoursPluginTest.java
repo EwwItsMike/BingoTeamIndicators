@@ -1,13 +1,13 @@
-package com.customdiscordpresence;
+package com.bingoteamcolours;
 
 import net.runelite.client.RuneLite;
 import net.runelite.client.externalplugins.ExternalPluginManager;
 
-public class CustomDiscordPresencePluginTest
+public class BingoTeamColoursPluginTest
 {
 	public static void main(String[] args) throws Exception
 	{
-		ExternalPluginManager.loadBuiltin(CustomDiscordPresencePlugin.class);
+		ExternalPluginManager.loadBuiltin(BingoTeamColoursPlugin.class);
 		RuneLite.main(args);
 	}
 }
