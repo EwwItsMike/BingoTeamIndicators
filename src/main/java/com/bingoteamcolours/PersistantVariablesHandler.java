@@ -7,7 +7,6 @@ import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.util.ArrayList;
-import java.util.List;
 
 import static net.runelite.client.RuneLite.RUNELITE_DIR;
 
@@ -15,6 +14,7 @@ public class PersistantVariablesHandler implements Serializable {
 
     int amountOfTeams = 1;
     ArrayList<String> names = new ArrayList<>();
+    ArrayList<ChatIcons> icons = new ArrayList<>();
 
     transient File file;
 
@@ -60,6 +60,7 @@ public class PersistantVariablesHandler implements Serializable {
             if (handler != null) {
                 this.amountOfTeams = handler.getAmountOfTeams();
                 this.names = handler.getNames();
+                this.icons = handler.getIcons();
             }
         } catch (IOException ioe) {
             ioe.printStackTrace();
@@ -82,5 +83,19 @@ public class PersistantVariablesHandler implements Serializable {
     public void setNames(ArrayList<String> names) {
         this.names = names;
         save();
+    }
+
+    public void setIcon(ChatIcons icon, int index){
+        if (icons.size() > index){
+            icons.set(index, icon);
+        } else {
+            icons.add(icon);
+        }
+
+        save();
+    }
+
+    public ArrayList<ChatIcons> getIcons(){
+        return icons;
     }
 }
