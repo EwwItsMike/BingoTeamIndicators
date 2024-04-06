@@ -17,8 +17,6 @@ public class BingoTeamIndicatorsPanel extends PluginPanel {
 
     private final ArrayList<JPanel> teamFields = new ArrayList<>();
     private final ArrayList<String> teamNames = new ArrayList<>();
-    private final ArrayList<ChatIcons> selectedIcon = new ArrayList<>();
-
     private FlatTextField amountOfTeams;
 
     private final PersistentVariablesHandler dataHandler;
