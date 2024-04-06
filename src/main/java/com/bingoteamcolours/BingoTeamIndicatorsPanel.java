@@ -10,11 +10,10 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import java.awt.*;
-import java.awt.event.ItemEvent;
 import java.util.ArrayList;
 
 @Slf4j
-public class BingoTeamColoursPanel extends PluginPanel {
+public class BingoTeamIndicatorsPanel extends PluginPanel {
 
     private final ArrayList<JPanel> teamFields = new ArrayList<>();
     private final ArrayList<String> teamNames = new ArrayList<>();
@@ -22,20 +21,19 @@ public class BingoTeamColoursPanel extends PluginPanel {
 
     private FlatTextField amountOfTeams;
 
-    private final PersistantVariablesHandler dataHandler;
-    private final BingoTeamColoursPlugin plugin;
+    private final PersistentVariablesHandler dataHandler;
+    private final BingoTeamIndicatorsPlugin plugin;
 
 
-    public BingoTeamColoursPanel(BingoTeamColoursPlugin plugin) {
-        dataHandler = new PersistantVariablesHandler(true);
+    public BingoTeamIndicatorsPanel(BingoTeamIndicatorsPlugin plugin) {
+        dataHandler = new PersistentVariablesHandler(true);
         this.plugin = plugin;
-
 
         createTitle();
         createTeamPanels();
     }
 
-    public PersistantVariablesHandler getDataHandler(){
+    public PersistentVariablesHandler getDataHandler(){
         return dataHandler;
     }
 
@@ -44,7 +42,7 @@ public class BingoTeamColoursPanel extends PluginPanel {
         titlePanel.setBorder(new EmptyBorder(10, 10, 20, 10));
 
         JLabel title = new JLabel();
-        title.setText("Bingo Team Colours");
+        title.setText("Bingo Team Indicators");
         title.setForeground(Color.WHITE);
         titlePanel.add(title);
 
@@ -57,7 +55,7 @@ public class BingoTeamColoursPanel extends PluginPanel {
         teamAmount.add(amountLabel);
 
         amountOfTeams = new FlatTextField();
-        if (dataHandler.getAmountOfTeams() > 0) {
+        if (dataHandler.getAmountOfTeams() < 0) {
             amountOfTeams.setText(String.valueOf(dataHandler.getAmountOfTeams()));
         } else {
             amountOfTeams.setText("1");
@@ -101,6 +99,9 @@ public class BingoTeamColoursPanel extends PluginPanel {
             if (n < 1) {
                 n = 1;
                 amountOfTeams.setText("1");
+            } else if (n > 15) {
+                n = 15;
+                amountOfTeams.setText("15");
             }
         } catch (NumberFormatException e) {
             amountOfTeams.setText("1");
@@ -143,14 +144,6 @@ public class BingoTeamColoursPanel extends PluginPanel {
         teamLabel.setForeground(Color.WHITE);
         teamPanel.add(teamLabel, BorderLayout.NORTH);
 
-        JComboBox<ChatIcons> dropdown = makeNewDropdown(ChatIcons.values(), index);
-
-        if (dataHandler.getIcons().size() > index){
-            dropdown.setSelectedIndex(getIconColourIndex(dataHandler.getIcons().get(index)));
-        }
-
-        teamPanel.add(dropdown);
-
         JTextArea names = new JTextArea();
         names.setPreferredSize(new Dimension(PluginPanel.PANEL_WIDTH - 20, 100));
         names.setBackground(ColorScheme.DARKER_GRAY_COLOR);
@@ -165,7 +158,7 @@ public class BingoTeamColoursPanel extends PluginPanel {
                     else
                         teamNames.add(names.getText());
                     dataHandler.setNames(teamNames);
-                    plugin.linkNamesToColours();
+                    plugin.linkNamesToIcons();
                 }
             };
 
@@ -194,44 +187,5 @@ public class BingoTeamColoursPanel extends PluginPanel {
         teamFields.add(teamPanel);
         teamPanel.setPreferredSize(new Dimension(PANEL_WIDTH, 150));
         add(teamPanel);
-    }
-
-    private JComboBox<ChatIcons> makeNewDropdown(ChatIcons[] values, int index){
-        JComboBox<ChatIcons> dropdown = new JComboBox<>(values);
-        dropdown.setFocusable(false);
-        dropdown.setForeground(Color.WHITE);
-        dropdown.setRenderer(new DropdownRenderer());
-        dropdown.addItemListener( e -> {
-            if (e.getStateChange() == ItemEvent.SELECTED){
-                ChatIcons source = (ChatIcons) e.getItem();
-
-                if (selectedIcon.size() > index){
-                    selectedIcon.set(index, source);
-                } else {
-                    selectedIcon.add(source);
-                }
-
-                dataHandler.setIcon(source, index);
-            }
-        });
-        return dropdown;
-    }
-
-    private int getIconColourIndex(ChatIcons icon) {
-        switch (icon){
-            case RED: return 1;
-            case BLACK: return 2;
-            case BLUE: return 3;
-            case CYAN: return 4;
-            case DARK_GREEN: return 5;
-            case LIGHT_GREEN: return 6;
-            case ORANGE: return 7;
-            case PINK: return 8;
-            case PURPLE: return 9;
-            case WHITE: return 10;
-            case YELLOW: return 11;
-
-            default: return 0;
-        }
     }
 }

@@ -10,18 +10,17 @@ import java.util.ArrayList;
 
 import static net.runelite.client.RuneLite.RUNELITE_DIR;
 
-public class PersistantVariablesHandler implements Serializable {
+public class PersistentVariablesHandler implements Serializable {
 
     int amountOfTeams = 1;
     ArrayList<String> names = new ArrayList<>();
-    ArrayList<ChatIcons> icons = new ArrayList<>();
-
     transient File file;
 
 
-    public PersistantVariablesHandler() {}
+    public PersistentVariablesHandler() {
+    }
 
-    public PersistantVariablesHandler(boolean firstSetup) {
+    public PersistentVariablesHandler(boolean firstSetup) {
         createDirectory();
         load();
     }
@@ -55,12 +54,11 @@ public class PersistantVariablesHandler implements Serializable {
     private void load() {
         try {
             String json = Files.readString(file.toPath());
-            PersistantVariablesHandler handler = new Gson().fromJson(json, PersistantVariablesHandler.class);
+            PersistentVariablesHandler handler = new Gson().fromJson(json, PersistentVariablesHandler.class);
 
             if (handler != null) {
                 this.amountOfTeams = handler.getAmountOfTeams();
                 this.names = handler.getNames();
-                this.icons = handler.getIcons();
             }
         } catch (IOException ioe) {
             ioe.printStackTrace();
@@ -83,19 +81,5 @@ public class PersistantVariablesHandler implements Serializable {
     public void setNames(ArrayList<String> names) {
         this.names = names;
         save();
-    }
-
-    public void setIcon(ChatIcons icon, int index){
-        if (icons.size() > index){
-            icons.set(index, icon);
-        } else {
-            icons.add(icon);
-        }
-
-        save();
-    }
-
-    public ArrayList<ChatIcons> getIcons(){
-        return icons;
     }
 }
