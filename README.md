@@ -20,3 +20,4 @@ See screenshots:
 ![chatbox](https://github.com/EwwItsMike/CustomDiscordPresence/assets/120571801/38ae9596-5a10-4368-9368-ce5f7e133656)
 ![sidepanel](https://github.com/EwwItsMike/CustomDiscordPresence/assets/120571801/bc2de9b1-6ad4-4f97-8768-084a31077c4b)
 
+Thank you to TuEgg for creating and supplying all the icons used!
