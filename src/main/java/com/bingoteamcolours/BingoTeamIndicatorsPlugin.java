@@ -55,7 +55,7 @@ public class BingoTeamIndicatorsPlugin extends Plugin {
     }
 
     private BufferedImage getIcon() {
-        return ImageUtil.loadImageResource(BingoTeamIndicatorsPlugin.class, "/trophy.png");
+        return ImageUtil.loadImageResource(BingoTeamIndicatorsPlugin.class, "/panelIcon.png");
     }
 
     @Override
@@ -104,15 +104,29 @@ public class BingoTeamIndicatorsPlugin extends Plugin {
 
         if (modIcons == null) return;
 
-        iconIds.put(ChatIcons.ONE, modIcons.length);
-        iconIds.put(ChatIcons.TWO, modIcons.length + 1);
-        iconIds.put(ChatIcons.THREE, modIcons.length + 2);
-        iconIds.put(ChatIcons.FOUR, modIcons.length + 3);
-        iconIds.put(ChatIcons.FIVE, modIcons.length + 4);
-        iconIds.put(ChatIcons.SIX, modIcons.length + 5);
-        iconIds.put(ChatIcons.SEVEN, modIcons.length + 6);
+        int index = 0;
+        for (ChatIcons icon : ChatIcons.values()) {
+            iconIds.put(icon, modIcons.length + index);
+            index++;
+        }
 
-        final IndexedSprite[] newModIcons = Arrays.copyOf(modIcons, modIcons.length + 7);
+//        iconIds.put(ChatIcons.ONE, modIcons.length);
+//        iconIds.put(ChatIcons.TWO, modIcons.length + 1);
+//        iconIds.put(ChatIcons.THREE, modIcons.length + 2);
+//        iconIds.put(ChatIcons.FOUR, modIcons.length + 3);
+//        iconIds.put(ChatIcons.FIVE, modIcons.length + 4);
+//        iconIds.put(ChatIcons.SIX, modIcons.length + 5);
+//        iconIds.put(ChatIcons.SEVEN, modIcons.length + 6);
+//        iconIds.put(ChatIcons.EIGHT, modIcons.length + 7);
+//        iconIds.put(ChatIcons.NINE, modIcons.length + 8);
+//        iconIds.put(ChatIcons.TEN, modIcons.length + 9);
+//        iconIds.put(ChatIcons.ELEVEN, modIcons.length + 10);
+//        iconIds.put(ChatIcons.TWELVE, modIcons.length + 11);
+//        iconIds.put(ChatIcons.THIRTEEN, modIcons.length + 12);
+//        iconIds.put(ChatIcons.FOURTEEN, modIcons.length + 13);
+//        iconIds.put(ChatIcons.FIFTEEN, modIcons.length + 14);
+
+        final IndexedSprite[] newModIcons = Arrays.copyOf(modIcons, modIcons.length + 14);
 
         for (ChatIcons icon : iconIds.keySet()) {
             BufferedImage img = ImageUtil.loadImageResource(getClass(), icon.getIconPath());
