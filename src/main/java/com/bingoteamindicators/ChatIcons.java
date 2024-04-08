@@ -1,4 +1,4 @@
-package com.bingoteamcolours;
+package com.bingoteamindicators;
 
 
 public enum ChatIcons {

@@ -1,4 +1,4 @@
-package com.bingoteamcolours;
+package com.bingoteamindicators;
 
 import net.runelite.client.config.Config;
 import net.runelite.client.config.ConfigGroup;

@@ -1,4 +1,4 @@
-package com.bingoteamcolours;
+package com.bingoteamindicators;
 
 import com.google.gson.Gson;
 
