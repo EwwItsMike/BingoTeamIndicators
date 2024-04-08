@@ -53,7 +53,7 @@ public class BingoTeamIndicatorsPanel extends PluginPanel {
         teamAmount.add(amountLabel);
 
         amountOfTeams = new FlatTextField();
-        if (dataHandler.getAmountOfTeams() < 0) {
+        if (dataHandler.getAmountOfTeams() > 0) {
             amountOfTeams.setText(String.valueOf(dataHandler.getAmountOfTeams()));
         } else {
             amountOfTeams.setText("1");
