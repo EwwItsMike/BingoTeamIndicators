@@ -1,7 +1,6 @@
 package com.bingoteamcolours;
 
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
@@ -16,11 +15,16 @@ public class PersistentVariablesHandler implements Serializable {
     ArrayList<String> names = new ArrayList<>();
     transient File file;
 
+    transient Gson gson;
 
     public PersistentVariablesHandler() {
     }
 
-    public PersistentVariablesHandler(boolean firstSetup) {
+    public PersistentVariablesHandler(Gson gson) {
+        this.gson = gson;
+    }
+
+    public void init() {
         createDirectory();
         load();
     }
@@ -41,7 +45,6 @@ public class PersistentVariablesHandler implements Serializable {
 
     private void save() {
         try {
-            Gson gson = new GsonBuilder().setPrettyPrinting().create();
             String json = gson.toJson(this);
 
             Files.write(file.toPath(), json.getBytes(StandardCharsets.UTF_8));
@@ -54,7 +57,7 @@ public class PersistentVariablesHandler implements Serializable {
     private void load() {
         try {
             String json = Files.readString(file.toPath());
-            PersistentVariablesHandler handler = new Gson().fromJson(json, PersistentVariablesHandler.class);
+            PersistentVariablesHandler handler = gson.fromJson(json, PersistentVariablesHandler.class);
 
             if (handler != null) {
                 this.amountOfTeams = handler.getAmountOfTeams();

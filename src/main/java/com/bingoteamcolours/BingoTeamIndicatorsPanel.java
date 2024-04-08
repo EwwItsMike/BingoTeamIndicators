@@ -1,10 +1,12 @@
 package com.bingoteamcolours;
 
+import com.google.gson.Gson;
 import lombok.extern.slf4j.Slf4j;
 import net.runelite.client.ui.ColorScheme;
 import net.runelite.client.ui.PluginPanel;
 import net.runelite.client.ui.components.FlatTextField;
 
+import javax.inject.Inject;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.event.DocumentEvent;
@@ -19,14 +21,19 @@ public class BingoTeamIndicatorsPanel extends PluginPanel {
     private final ArrayList<String> teamNames = new ArrayList<>();
     private FlatTextField amountOfTeams;
 
-    private final PersistentVariablesHandler dataHandler;
-    private final BingoTeamIndicatorsPlugin plugin;
+    private PersistentVariablesHandler dataHandler;
+    @Inject
+    private BingoTeamIndicatorsPlugin plugin;
 
 
-    public BingoTeamIndicatorsPanel(BingoTeamIndicatorsPlugin plugin) {
-        dataHandler = new PersistentVariablesHandler(true);
+    @Inject
+    public BingoTeamIndicatorsPanel(BingoTeamIndicatorsPlugin plugin, Gson gson) {
+        dataHandler = new PersistentVariablesHandler(gson);
         this.plugin = plugin;
+    }
 
+    public void init() {
+        dataHandler.init();
         createTitle();
         createTeamPanels();
     }
@@ -36,6 +43,8 @@ public class BingoTeamIndicatorsPanel extends PluginPanel {
     }
 
     private void createTitle() {
+        removeAll();
+
         JPanel titlePanel = new JPanel();
         titlePanel.setBorder(new EmptyBorder(10, 10, 20, 10));
 
@@ -50,7 +59,7 @@ public class BingoTeamIndicatorsPanel extends PluginPanel {
         JLabel amountLabel = new JLabel();
         amountLabel.setText("Amount of teams");
         amountLabel.setForeground(Color.WHITE);
-        teamAmount.add(amountLabel);
+        teamAmount.add(amountLabel, BorderLayout.CENTER);
 
         amountOfTeams = new FlatTextField();
         if (dataHandler.getAmountOfTeams() > 0) {

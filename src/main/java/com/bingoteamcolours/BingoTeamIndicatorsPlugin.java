@@ -60,7 +60,8 @@ public class BingoTeamIndicatorsPlugin extends Plugin {
 
     @Override
     protected void startUp() throws Exception {
-        panel = new BingoTeamIndicatorsPanel(this);
+        panel = injector.getInstance(BingoTeamIndicatorsPanel.class);
+        panel.init();
 
         navButton = NavigationButton.builder()
                 .tooltip("Bingo Team Indicators")
@@ -83,6 +84,7 @@ public class BingoTeamIndicatorsPlugin extends Plugin {
             clientThread.invoke(() -> {
                 if (client.getModIcons() == null) return;
                 loadIcons();
+                panel.init();
                 hasLoaded = true;
             });
         }
