@@ -2,6 +2,7 @@ package com.bingoteamindicators;
 
 import com.google.inject.Provides;
 
+import javax.imageio.ImageIO;
 import javax.inject.Inject;
 
 import lombok.extern.slf4j.Slf4j;
@@ -19,6 +20,9 @@ import net.runelite.client.util.ImageUtil;
 import net.runelite.client.util.Text;
 
 import java.awt.image.BufferedImage;
+import java.io.BufferedInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.Arrays;
 import java.util.HashMap;
 
@@ -115,11 +119,19 @@ public class BingoTeamIndicatorsPlugin extends Plugin {
         final IndexedSprite[] newModIcons = Arrays.copyOf(modIcons, modIcons.length + 15);
 
         for (ChatIcons icon : iconIds.keySet()) {
-            BufferedImage img = ImageUtil.loadImageResource(getClass(), icon.getIconPath());
-            IndexedSprite sprite = ImageUtil.getImageIndexedSprite(img, client);
-            newModIcons[iconIds.get(icon)] = sprite;
 
-            iconTags.put((iconIds.get(icon) - modIcons.length), "<img=" + iconIds.get(icon) + ">");
+            try (InputStream s = getClass().getResourceAsStream(icon.getIconPath());
+                 InputStream bufIn = new BufferedInputStream(s))
+            {
+                BufferedImage bf = ImageIO.read(bufIn);
+                IndexedSprite sprite = ImageUtil.getImageIndexedSprite(bf, client);
+                newModIcons[iconIds.get(icon)] = sprite;
+
+                iconTags.put((iconIds.get(icon) - modIcons.length), "<img=" + iconIds.get(icon) + ">");
+
+            } catch(IOException ioException) {
+                ioException.printStackTrace();
+            }
         }
 
         client.setModIcons(newModIcons);
